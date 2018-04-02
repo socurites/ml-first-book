@@ -83,3 +83,50 @@ plt.show()
 '''
 Remove noise data
 '''
+min_product_user_li = [k for k, v in user_product_dic.items() if len(v) == 1]
+max_product_user_li = [k for k, v in user_product_dic.items() if len(v) > 600]
+
+print("# of users purchased one product: %d" % (len(min_product_user_li)))
+print("# of users purchased more than 600 products: %d" % (len(max_product_user_li)))
+
+user_product_dic = {k:v for k, v in user_product_dic.items() if 1 < len(v) <= 600}
+
+print("# of left users: %d" % (len(user_product_dic)))
+
+id_product_dic = {}
+
+for product_set_li in user_product_dic.values():
+    for x in product_set_li:
+        if x in id_product_dic:
+            product_id = id_product_dic[x]
+        else:
+            id_product_dic.setdefault(x, len(id_product_dic))
+
+print("# of left items: %d" % (len(id_product_dic)))
+
+
+'''
+One-hot encoding
+- row: user id
+- col: prod id
+'''
+id_user_dic = {}
+user_product_vec_li = []
+
+all_product_count = len(id_product_dic)
+
+for user_code, product_per_user_set in user_product_dic.items():
+    user_product_vec = [0] * all_product_count
+
+    id_user_dic[len(id_user_dic)] = user_code
+
+    for product_name in product_per_user_set:
+        user_product_vec[id_product_dic[product_name]] = 1
+
+    user_product_vec_li.append(user_product_vec)
+
+
+print(id_user_dic[0])
+print(user_product_dic['17080'])
+print(user_product_vec_li[0])
+print(len(user_product_vec_li[0]))
