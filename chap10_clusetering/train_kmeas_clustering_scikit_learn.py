@@ -1,5 +1,5 @@
 import random
-from preprocess import user_product_vec_li
+from preprocess_data import user_product_vec_li
 from sklearn.cluster import KMeans
 
 '''
